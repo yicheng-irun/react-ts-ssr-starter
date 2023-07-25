@@ -1,0 +1,11 @@
+{
+  "name": "react-ts-ssr-starter",
+  "version": "1.0.0",
+  "description": "react+typescript+vitejs+SSR",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yicheng-me@qq.com",
+  "license": "ISC"
+}
