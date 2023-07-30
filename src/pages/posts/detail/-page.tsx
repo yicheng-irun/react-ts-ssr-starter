@@ -1,7 +1,39 @@
+import { useEffect, useState } from "react"
+import { PostsItem, apiGetPostsDetail } from "../../../api/posts"
+import { styled } from "styled-components"
+import { ArticleDetail } from "./article-detail"
+import axios from "axios"
+import { useSearchParams } from "react-router-dom"
 
+const StyledDiv = styled.div`
+  
+
+`
 
 export default function Page() {
-  return <h2>
-    文章详情页
-  </h2>
+
+  const [articleData, setArticleData] = useState<PostsItem| null | undefined>(undefined)
+
+  const [params] = useSearchParams();
+  const id = params.get('id');
+
+  useEffect(() => {
+    if (!id) return;
+    (async () => {
+      const rsp = await apiGetPostsDetail(axios, { id })
+      setArticleData(rsp);
+    })().catch(console.error);
+  }, []);
+
+  return <StyledDiv>
+    {
+      !!articleData && <ArticleDetail article={articleData}></ArticleDetail>
+    }
+    {
+      articleData === null && <h3>文章不存在</h3>
+    }
+    {
+      articleData === undefined && <h3>文章加载中</h3>
+    }
+  </StyledDiv>
 }

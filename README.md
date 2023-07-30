@@ -32,4 +32,9 @@ https://cn.vitejs.dev/guide/ssr.html
 https://reactrouter.com/en/main/guides/ssr
 使用ReactDOMServer.renderToString 进行服务端的渲染。
 
+## 4. 普通模式下的数据请求
+
+在useEffect中进行数据请求
+
+
 
