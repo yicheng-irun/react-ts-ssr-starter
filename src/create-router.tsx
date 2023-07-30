@@ -1,6 +1,5 @@
 import type { FunctionComponent } from 'react';
 import type { RouteObject } from 'react-router-dom'
-import {createBrowserRouter } from 'react-router-dom'
 
 
 export function createRouter() {
@@ -51,13 +50,7 @@ export function createRouter() {
   //   element: <NotFoundComp />,
   // });
 
-  const router = createBrowserRouter(routes, {
-    basename: '/',
-  });
-
-
   return {
-    router,
     routes,
   };
 }
