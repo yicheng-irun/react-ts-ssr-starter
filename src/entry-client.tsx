@@ -3,12 +3,34 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { createRouter } from './create-router.tsx'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, matchRoutes } from 'react-router-dom'
 
 
-function render() {
+async function render() {
 
   const { routes } = createRouter();
+
+  const lazyMatches = matchRoutes(
+    routes,
+    window.location
+  )?.filter((m) => m.route.lazy);
+  
+  // Load the lazy matches and update the routes before creating your router
+  // so we can hydrate the SSR-rendered content synchronously
+  if (lazyMatches && lazyMatches.length > 0) {
+    await Promise.all(
+      lazyMatches.map(async (m) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const routeModule = await m.route.lazy();
+        Object.assign(m.route, {
+          ...routeModule,
+          lazy: undefined,
+        });
+      })
+    );
+  }
+
   const router = createBrowserRouter(routes, {
     basename: '/',
   });
@@ -24,4 +46,4 @@ function render() {
   )
 }
 
-render();
+render().catch(console.error)
