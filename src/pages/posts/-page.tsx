@@ -2,6 +2,7 @@ import { PostsItem } from "../../api/posts";
 import ArticleList from "./article-list";
 import styled from 'styled-components'
 import { ActionFunction, LoaderFunction, useLoaderData } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const StyledDiv = styled.div`
 >h2 {
@@ -18,6 +19,9 @@ export default function Page() {
   };
   
   return <StyledDiv>
+    <Helmet>
+      <title>文章列表</title>
+    </Helmet>
     <h2>
       文章列表页
     </h2>

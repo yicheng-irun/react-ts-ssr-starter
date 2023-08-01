@@ -2,6 +2,7 @@ import { PostsItem } from "../../../api/posts"
 import { styled } from "styled-components"
 import { ArticleDetail } from "./article-detail"
 import { LoaderFunction, useLoaderData } from "react-router-dom"
+import { Helmet } from "react-helmet-async"
 
 const StyledDiv = styled.div`
   
@@ -15,7 +16,13 @@ export default function Page() {
 
   return <StyledDiv>
     {
-      !!articleData && <ArticleDetail article={articleData}></ArticleDetail>
+      !!articleData && <>
+        <Helmet>
+          <title>{articleData.title}</title>
+          <meta name="keywords" content={articleData.keywords.join(',')} />
+        </Helmet>
+        <ArticleDetail article={articleData}></ArticleDetail>
+      </>
     }
     {
       articleData === null && <h3>文章不存在</h3>

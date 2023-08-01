@@ -6,6 +6,7 @@ import ReactDOMServer from 'react-dom/server'
 import App from "./App";
 import { createFetchRequest } from "./plugins/fetch-request";
 import { ServerStyleSheet } from "styled-components";
+import { HelmetProvider, HelmetServerState } from "react-helmet-async";
 
 const { routes } = createRouter();
 const routerHandler = createStaticHandler(routes)
@@ -28,10 +29,16 @@ async function renderPage({
 
   const sheet = new ServerStyleSheet();
 
+  const helmetContext: {
+    helmet?: HelmetServerState
+  } = {};
+
   // 进行渲染
   const html = ReactDOMServer.renderToString(sheet.collectStyles(
     <App>
-      <StaticRouterProvider router={router} context={context} />
+      <HelmetProvider context={helmetContext}>
+        <StaticRouterProvider router={router} context={context} />
+      </HelmetProvider>
     </App>
   ));
 
