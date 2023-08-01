@@ -6,19 +6,19 @@ import express from "express";
  * @returns 
  */
 export function createFetchRequest(req: express.Request) {
-  let origin = `${req.protocol}://${req.get("host")}`;
+  const origin = `${req.protocol}://${req.get("host")}`;
   // Note: This had to take originalUrl into account for presumably vite's proxying
-  let url = new URL(req.originalUrl || req.url, origin);
+  const url = new URL(req.originalUrl || req.url, origin);
 
-  let controller = new AbortController();
-  req.on("close", () => controller.abort());
+  const controller = new AbortController();
+  req.on("close", () => { controller.abort(); });
 
-  let headers = new Headers();
+  const headers = new Headers();
 
-  for (let [key, values] of Object.entries(req.headers)) {
+  for (const [key, values] of Object.entries(req.headers)) {
     if (values) {
       if (Array.isArray(values)) {
-        for (let value of values) {
+        for (const value of values) {
           headers.append(key, value);
         }
       } else {
@@ -27,7 +27,7 @@ export function createFetchRequest(req: express.Request) {
     }
   }
 
-  let init = {
+  const init = {
     method: req.method,
     headers,
     signal: controller.signal,
@@ -35,8 +35,9 @@ export function createFetchRequest(req: express.Request) {
   };
 
   if (req.method !== "GET" && req.method !== "HEAD") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     init.body = req.body;
   }
 
   return new Request(url.href, init);
-};
+}

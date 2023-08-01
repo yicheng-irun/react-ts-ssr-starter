@@ -20,13 +20,13 @@ async function renderPage({
   template: string;
 }): Promise<RenderResult['renderData']> {
   // 创建路由
-  let router = createStaticRouter(
+  const router = createStaticRouter(
     routerHandler.dataRoutes,
     context
   );
 
   // 进行渲染
-  let html = ReactDOMServer.renderToString(
+  const html = ReactDOMServer.renderToString(
     <App>
       <StaticRouterProvider router={router} context={context} />
     </App>
@@ -51,8 +51,8 @@ export async function render(param: {
   template: string;
 }): Promise<RenderResult> {
   // 准备渲染的上下文
-  let fetchRequest = createFetchRequest(param.req);
-  let context = await routerHandler.query(fetchRequest);
+  const fetchRequest = createFetchRequest(param.req);
+  const context = await routerHandler.query(fetchRequest);
 
   /**
    * 如果触发了

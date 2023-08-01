@@ -33,8 +33,15 @@ https://reactrouter.com/en/main/guides/ssr
 使用ReactDOMServer.renderToString 进行服务端的渲染。
 
 ## 4. 普通模式下的数据请求
+在useEffect中进行数据请求 [ssr反例]
 
-在useEffect中进行数据请求
+## 5. 在服务端进行数据请求
+* 服务端的axios实例，cookie和header的处理
+* 拆分客户端和服务端axios的实例
+* 数据预请求函数
 
+## 6. 服务端请求的数据，在前端进行接管，避免前端重复请求
+* 数据传递和接管
 
+## 7. css样式的直出，styled-components的样式的直出，避免页面样式闪动
 

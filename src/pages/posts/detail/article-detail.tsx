@@ -36,7 +36,7 @@ const ArticleContent = styled.div`
 `;
 
 export const ArticleDetail = ({ article }: {
-    article: PostsItem
+  article: PostsItem
 }) => {
   return (
     <ArticleDetailWrapper>

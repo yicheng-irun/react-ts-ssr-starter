@@ -46,13 +46,13 @@ const ArticleTitle = styled.h3`
 `;
 
 const Article = ({ article }: {
-    article: PostsItem
+  article: PostsItem
 }) => {
   return (
     <ArticleItem>
       <ArticleTitle>
         <NavLink to={'/posts/detail?id=' + article.id}>{article.title}</NavLink>
-    </ArticleTitle>
+      </ArticleTitle>
       <ArticleMeta>
         {article.time} by {article.author} - {article.keywords.join(', ')}
       </ArticleMeta>
@@ -62,7 +62,7 @@ const Article = ({ article }: {
 };
 
 export const ArticleList = ({ articles }: {
-    articles: PostsItem[]
+  articles: PostsItem[]
 }) => {
   return (
     <ArticleListWrapper>

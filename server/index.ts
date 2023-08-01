@@ -3,10 +3,12 @@ import { createServer as createViteServer } from 'vite'
 import { apiIndexRouter } from './api/index-api';
 import { resolve } from 'path'
 import { ssrHander } from './ssr-utils';
+import morgan from 'morgan';
 
 
-export async function createApp() {
+export async function createApp(): Promise<ReturnType<typeof express>> {
   const app = express();
+  app.use(morgan('combined'))
 
   const vite = await createViteServer({
     root: resolve(__dirname, '../'),
@@ -19,7 +21,7 @@ export async function createApp() {
 
   app.use('/api', apiIndexRouter)
 
-  app.get('*', async (req, res) => {
+  app.get('*', (req, res) => {
     ssrHander(req, res, vite);
   });
 
