@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react"
-import axios from 'axios'
-import { PostsItem, apiGetPosts } from "../../api/posts";
+import { PostsItem } from "../../api/posts";
 import ArticleList from "./article-list";
 import styled from 'styled-components'
-import { ActionFunction, LoaderFunction, json } from "react-router-dom";
+import { ActionFunction, LoaderFunction, useLoaderData } from "react-router-dom";
 
 const StyledDiv = styled.div`
 >h2 {
@@ -13,15 +11,12 @@ const StyledDiv = styled.div`
 
 
 export default function Page() {
-  const [postsList, setPostsList] = useState<PostsItem[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const rsp = await apiGetPosts(axios)
-      setPostsList(rsp);
-    })().catch(console.error);
-  }, []);
-
+  const {
+    postsList
+  } = useLoaderData() as {
+    postsList: PostsItem[]
+  };
+  
   return <StyledDiv>
     <h2>
       文章列表页
@@ -34,12 +29,33 @@ export default function Page() {
  * @param param0 
  * @returns 
  */
-export const loader: LoaderFunction = ({ request, params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   console.log('posts page loader func run')
   console.log(request.url, params)
 
+  const urlOrigin = import.meta.env.SSR ? 'http://127.0.0.1:5000' : '';
 
-  return json({})
+  const rsp = await fetch(urlOrigin + '/api/posts/list',{
+    signal: request.signal,
+    headers: {
+      ...request.headers,
+    }
+  });
+
+  if (rsp.status === 200) {
+    const rspData = await rsp.json() as {
+      success: boolean,
+      message: string;
+      data: PostsItem[]
+    };
+    if (rspData.success) {
+      return {
+        postsList: rspData.data
+      };
+    }
+  }
+
+  throw new Error('请求文章列表数据出错')
 }
 
 
