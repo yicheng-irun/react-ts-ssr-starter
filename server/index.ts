@@ -8,7 +8,7 @@ import morgan from 'morgan';
 
 export async function createApp(): Promise<ReturnType<typeof express>> {
   const app = express();
-  app.use(morgan('combined'))
+  app.use(morgan('dev'))
 
   const vite = await createViteServer({
     root: resolve(__dirname, '../'),
@@ -30,8 +30,8 @@ export async function createApp(): Promise<ReturnType<typeof express>> {
 
 (async () => {
   const app = await createApp();
-  app.listen(50000, '0.0.0.0', () => {
+  app.listen(5000, '0.0.0.0', () => {
     console.log('listening in port 50000')
-  })
+  });
 
 })().catch(console.error)

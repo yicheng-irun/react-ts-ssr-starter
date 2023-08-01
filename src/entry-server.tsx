@@ -18,7 +18,7 @@ async function renderPage({
    * index.html的模板
    */
   template: string;
-}): Promise<RenderResult['renderData']> {
+}): Promise<NonNullable<RenderResult['renderData']>> {
   // 创建路由
   const router = createStaticRouter(
     routerHandler.dataRoutes,
@@ -52,7 +52,10 @@ export async function render(param: {
 }): Promise<RenderResult> {
   // 准备渲染的上下文
   const fetchRequest = createFetchRequest(param.req);
+  console.log('create fetch request end');
+  // 发起上下文的数据请求
   const context = await routerHandler.query(fetchRequest);
+  console.log('context ready');
 
   /**
    * 如果触发了
