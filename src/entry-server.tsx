@@ -35,15 +35,25 @@ async function renderPage({
 
   // 进行渲染
   const html = ReactDOMServer.renderToString(sheet.collectStyles(
-    <App>
-      <HelmetProvider context={helmetContext}>
+    <HelmetProvider context={helmetContext}>
+      <App>
         <StaticRouterProvider router={router} context={context} />
-      </HelmetProvider>
-    </App>
+      </App>
+    </HelmetProvider>
   ));
 
-  const content = template.replace('<!--app-html-->', html)
+  let content = template.replace('<!--app-html-->', html)
     .replace('<!--server-style-sheet--->', sheet.getStyleTags())
+
+  const { helmet } = helmetContext;
+  if (helmet) {
+    content = content.replace('<!--helmet-meta-->', helmet.meta.toString())
+      .replace('<!--helmet-title-->', helmet.title.toString())
+      .replace('<!--helmet-link-->', helmet.link.toString())
+      .replace('<!--helmet-style-->', helmet.style.toString())
+      .replace('<!--helmet-script-->', helmet.script.toString())
+      .replace('-helmet-body-attrs-', helmet.bodyAttributes.toString());
+  }
 
 
   return {
