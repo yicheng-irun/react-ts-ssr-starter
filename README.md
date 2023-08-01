@@ -45,3 +45,5 @@ https://reactrouter.com/en/main/guides/ssr
 
 ## 7. css样式的直出，styled-components的样式的直出，避免页面样式闪动
 
+相关资料：
+https://styled-components.com/docs/advanced#server-side-rendering

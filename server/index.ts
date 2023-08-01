@@ -31,7 +31,7 @@ export async function createApp(): Promise<ReturnType<typeof express>> {
 (async () => {
   const app = await createApp();
   app.listen(5000, '0.0.0.0', () => {
-    console.log('listening in port 50000')
+    console.log('listening in port 5000')
   });
 
 })().catch(console.error)

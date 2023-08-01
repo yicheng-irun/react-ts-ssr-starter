@@ -5,6 +5,7 @@ import { createRouter } from "./create-router";
 import ReactDOMServer from 'react-dom/server'
 import App from "./App";
 import { createFetchRequest } from "./plugins/fetch-request";
+import { ServerStyleSheet } from "styled-components";
 
 const { routes } = createRouter();
 const routerHandler = createStaticHandler(routes)
@@ -25,14 +26,18 @@ async function renderPage({
     context
   );
 
+  const sheet = new ServerStyleSheet();
+
   // 进行渲染
-  const html = ReactDOMServer.renderToString(
+  const html = ReactDOMServer.renderToString(sheet.collectStyles(
     <App>
       <StaticRouterProvider router={router} context={context} />
     </App>
-  );
+  ));
 
-  const content = template.replace('<!--app-html-->', html);
+  const content = template.replace('<!--app-html-->', html)
+    .replace('<!--server-style-sheet--->', sheet.getStyleTags())
+
 
   return {
     content,

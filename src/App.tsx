@@ -1,3 +1,4 @@
+import { GlobalCss } from "./global-css";
 
 
 function App({ children }: {
@@ -5,6 +6,7 @@ function App({ children }: {
 }) {
   return (
     <>
+      <GlobalCss></GlobalCss>
       {children}
     </>
   );
